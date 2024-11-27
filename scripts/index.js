@@ -1,23 +1,30 @@
 
-let pitsaElement;
+const sliceCount = 6
 
-window.onload = function() {
-    pitsaElement = document.getElementById("pitsa-animatsioon")
-    console.log("test")
+window.onload = function() {    
     drawPizza()
 }
 
 
 function drawPizza() {
-    for (let i = 0; i < 6; i++) {
-        drawSlice(i)
+    pitsaElement = document.getElementById("pitsa-animatsioon")
+
+    for (let i = 0; i < 5; i++) {
+        drawSlice(pitsaElement, i)
     }
 }
 
 
-function drawSlice(index) {
-    const angle1 = index * 60 / 180 * Math.PI
-    const angle2 = (index + 1) * 60 / 180 * Math.PI
+function drawSlice(pitsaElement, index) {
+    const sliceDiv = document.createElementNS("http://www.w3.org/2000/svg", "g")
+    drawBase(sliceDiv, index)
+    pitsaElement.appendChild(sliceDiv)
+}
+
+
+function drawBase(sliceDiv, index) {
+    const angle1 = index / sliceCount * 2 * Math.PI
+    const angle2 = (index + 1) / sliceCount * 2 * Math.PI
 
     const pos1 = [50 + 50 * Math.sin(angle1), 50 + 50 * Math.cos(angle1)]
     const pos2 = [50 + 50 * Math.sin(angle2), 50 + 50 * Math.cos(angle2)]
@@ -31,7 +38,7 @@ function drawSlice(index) {
     pizzaSliceElement.setAttribute("fill", "yellow")
     pizzaSliceElement.setAttribute("stroke", "yellow")
     pizzaSliceElement.setAttribute("stroke-width", "0.4")
-    pitsaElement.appendChild(pizzaSliceElement)
+    sliceDiv.appendChild(pizzaSliceElement)
 
     const pizzaCrustElement = document.createElementNS("http://www.w3.org/2000/svg", "path")
     pizzaCrustElement.setAttribute("d", pizzaCrustPath)
@@ -39,5 +46,21 @@ function drawSlice(index) {
     pizzaCrustElement.setAttribute("stroke", "#885522")
     pizzaCrustElement.setAttribute("stroke-width", "3")
     pizzaCrustElement.setAttribute("stroke-linecap", "round")
-    pitsaElement.appendChild(pizzaCrustElement)
+    sliceDiv.appendChild(pizzaCrustElement)
+}
+
+
+function findRandomSpot(index) {
+    const angle1 = index / sliceCount * 2 * Math.PI
+    const angle2 = (index + 1) / sliceCount * 2 * Math.PI
+    const angle = min + Math.random() * (max - min)
+
+    const d = Math.sqrt(Math.random()) * 45
+
+    
+}
+
+
+function drawTopNotchToppings(slicediv, index) {
+
 }
