@@ -5,3 +5,7 @@ body {
 h1 {
     color: darkblue;
 }
+
+:root {
+    background: repeat url("PitsaTaust.png");
+}
