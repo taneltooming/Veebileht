@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9e5d3;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+}
+
+header {
+    width: 100%;
+    height: 6em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3vh;
+    color: #333;
+    font-family: "Fredericka the Great", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    flex-wrap: wrap;
+
+}
+
+
+.left,
+.center,
+.right {
+    width: 33.33%;
+    padding: 20px;
+    box-sizing: border-box;
+
+}
+
+.left p {
+    text-align: left;
+    font-size: 2vh;
+    margin-top: 21vh;
+    font-family: "Bokor", serif;
+
+}
+
+.right p {
+    text-align: right;
+    font-size: 2vh;
+    margin-top: 21vh;
+    font-family: "Bokor", serif;
+
+}
+
+.center img {
+    max-width: 100%;
+    height: auto;
+
+}
+
+
+.horizontal-bar {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 25vh;
+    background-color: #D9B890;
+    z-index: -1;
+    transform: translateY(-50%);
+
+}
+
+.nav {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+
+}
+
+.left-link img {
+    object-fit: contain;
+    transform: rotate(90deg);
+    width: 18vh;
+    display: block;
+
+}
+
+.right-link img {
+    object-fit: contain;
+    transform: rotate(-90deg);
+    width: 18vh;
+    display: block;
+
+}
+
+#link {
+    padding: 0;
+    margin: 0;
+}
