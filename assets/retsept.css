@@ -48,3 +48,39 @@ header {
     position: relative;
     right: -45%
 }
+
+.nav {
+    width: 90%;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    font-family: "Teko", sans-serif;
+    font-size: 3vh;
+    box-sizing: border-box;
+
+}
+
+.left-link img {
+    margin-bottom: 0;
+    display: block;
+    width: 30%;
+    transform: rotate(90deg);
+
+}
+
+.right-link img {
+    margin-bottom: 0;
+    display: block;
+    width: 30%;
+    transform: rotate(-90deg);
+
+}
+
+.right-link {
+    text-align: -webkit-right;
+}
+
+.right-link p,
+.left-link p {
+    margin: 0;
+}
