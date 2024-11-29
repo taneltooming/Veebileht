@@ -3,16 +3,24 @@ const sliceCount = 6
 const pizzaBases = []
 const pizzaToppings = []
 
+const anglePerSecond = 6
+let prevTime = 0
+
 window.onload = function() {    
     drawPizza()
+    requestAnimationFrame(animationFrame)
 }
 
-function randomRange(a, b) {
-    return a + Math.random() * (b - a)
-}
+function animationFrame(currentTime) {
+    deltaTime = (currentTime - prevTime) / 1000
+    prevTime = currentTime
 
-function randomInt(n) {
-    return Math.floor(Math.random() * n)
+    pitsa = document.getElementById("pitsa-animatsioon")
+    pitsa.style.transform = (`scale(1, 0.65) rotate(${currentTime}deg)`)
+
+    console.log(deltaTime)
+
+    requestAnimationFrame(animationFrame)
 }
 
 function drawPizza() {
@@ -139,4 +147,12 @@ function drawTopNotchToppings(sliceDiv, index) {
     drawLeaf(sliceDiv, index, randomRange(0, 30), randomRange(30, 35))
     drawLeaf(sliceDiv, index, randomRange(30, 60), randomRange(5, 45))
     drawLeaf(sliceDiv, index, randomRange(0, 60), randomRange(5, 45))
+}
+
+function randomRange(a, b) {
+    return a + Math.random() * (b - a)
+}
+
+function randomInt(n) {
+    return Math.floor(Math.random() * n)
 }
