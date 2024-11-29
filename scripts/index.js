@@ -7,31 +7,47 @@ window.onload = function() {
     drawPizza()
 }
 
-
 function randomRange(a, b) {
     return a + Math.random() * (b - a)
 }
 
+function randomInt(n) {
+    return Math.floor(Math.random() * n)
+}
 
 function drawPizza() {
     pitsaElement = document.getElementById("pitsa-animatsioon")
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
         createBase(pitsaElement, i)
     }
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
         createTopNotchToppings(pitsaElement, i)
     }
 }
 
-
 function createBase(pitsaElement, index) {
     const baseGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
     drawBase(baseGroup, index)
+    drawCrust(baseGroup, index)
     pitsaElement.appendChild(baseGroup)
     pizzaBases.push(baseGroup)
 }
 
+function createTopNotchToppings(pitsaElement, index) {
+    const toppingsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
+    drawTopNotchToppings(toppingsGroup, index)
+    pitsaElement.appendChild(toppingsGroup)
+    pizzaToppings.push(toppingsGroup)
+
+    toppingsGroup.id = "topping-" + index
+    toppingsGroup.addEventListener("mouseover", (e) => {
+        toppingsGroup.setAttribute("transform", "translate(0, -60)")
+    })
+    toppingsGroup.addEventListener("mouseout", (e) => {
+        toppingsGroup.setAttribute("transform", "translate(0, 0)")
+    })
+}
 
 function drawBase(baseGroup, index) {
     const angle1 = index / sliceCount * 2 * Math.PI
@@ -46,20 +62,22 @@ function drawBase(baseGroup, index) {
 
     const pizzaSliceElement = document.createElementNS("http://www.w3.org/2000/svg", "path")
     pizzaSliceElement.setAttribute("d", pizzaSlicePath)
-    pizzaSliceElement.setAttribute("fill", "#ff5500")
+    pizzaSliceElement.setAttribute("fill", "#ff2200")
     pizzaSliceElement.setAttribute("stroke", "red")
     pizzaSliceElement.setAttribute("stroke-width", "0.4")
     baseGroup.appendChild(pizzaSliceElement)
-
-    const pizzaCrustElement = document.createElementNS("http://www.w3.org/2000/svg", "path")
-    pizzaCrustElement.setAttribute("d", pizzaCrustPath)
-    pizzaCrustElement.setAttribute("fill", "transparent")
-    pizzaCrustElement.setAttribute("stroke", "#aa6622")
-    pizzaCrustElement.setAttribute("stroke-width", "5")
-    pizzaCrustElement.setAttribute("stroke-linecap", "round")
-    baseGroup.appendChild(pizzaCrustElement)
 }
 
+function drawCrust(baseGroup, index) {
+    const crust = document.createElementNS("http://www.w3.org/2000/svg", "image")
+    const size = 108
+    crust.setAttribute("x", -size/2)
+    crust.setAttribute("y", -size/2)
+    crust.setAttribute("height", size)
+    crust.setAttribute("width", size)
+    crust.setAttribute("href", `assets/crust.svg`)
+    addToppingAt(baseGroup, index, crust, -30, 0)
+}
 
 function randomPosAtSlice(index) {
     const angle1 = index / sliceCount * 2 * Math.PI + 0.1
@@ -74,53 +92,51 @@ function randomPosAtSlice(index) {
     return [x, y]
 }
 
-function addToppingAt(group, index, topping, angleInDegrees, distance) {
-    const toppingGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
-
+function addToppingAt(group, index, topping, angleInDegrees, distance, rotation) {
     rotationAngle = - angleInDegrees - 360 / sliceCount * index
+    if (rotation) rotationAngle = rotation
     const posAngle = angleInDegrees / 180 * Math.PI + index / sliceCount * 2 * Math.PI
     const x = 50 + distance * Math.sin(posAngle)
     const y = 50 + distance * Math.cos(posAngle)
 
     topping.setAttribute("transform", `translate(${x},${y}) rotate(${rotationAngle}) `)
 
-    group.appendChild(toppingGroup)
-    toppingGroup.appendChild(topping)
+    group.appendChild(topping)
 }
 
-function createTopNotchToppings(pitsaElement, index) {
-    const toppingsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
-    drawTopNotchToppings(toppingsGroup, index)
-    pitsaElement.appendChild(toppingsGroup)
-    pizzaToppings.push(toppingsGroup)
+function drawCheese(sliceDiv, index, angle, distance) {
+    const topping = document.createElementNS("http://www.w3.org/2000/svg", "image")
+    topping.setAttribute("x", -10)
+    topping.setAttribute("y", -10)
+    topping.setAttribute("height", 20)
+    topping.setAttribute("width", 20)
+    topping.setAttribute("href", `assets/cheese${randomInt(2)}.svg`)
+
+    addToppingAt(sliceDiv, index, topping, angle, distance)
 }
 
+function drawLeaf(sliceDiv, index, angle, distance) {
+    const topping = document.createElementNS("http://www.w3.org/2000/svg", "image")
+    size = randomRange(14, 9)
+    topping.setAttribute("x", -size/2)
+    topping.setAttribute("y", -size/2)
+    topping.setAttribute("height", size)
+    topping.setAttribute("width", size)
+    topping.setAttribute("href", `assets/leaf.svg`)
+
+    //const distance = Math.sqrt(Math.random(48)) * 48
+    //const angle = 360 / sliceCount * Math.random()
+    addToppingAt(sliceDiv, index, topping, angle, distance, randomRange(0, 360))
+}
 
 function drawTopNotchToppings(sliceDiv, index) {
-    let topping = document.createElementNS("http://www.w3.org/2000/svg", "rect")
-    topping.setAttribute("x", -6)
-    topping.setAttribute("y", -6)
-    topping.setAttribute("width", 14)
-    topping.setAttribute("height", 14)
-    topping.setAttribute("fill", "#ffee33")
-    topping.setAttribute("rx", 4)
-    addToppingAt(sliceDiv, index, topping, randomRange(10, 20), randomRange(31, 36))
+    drawCheese(sliceDiv, index, randomRange(20, 40), randomRange(5, 20))
+    drawCheese(sliceDiv, index, randomRange(20, 40), randomRange(20, 30))
+    drawCheese(sliceDiv, index, randomRange(10, 20), randomRange(30, 35))
+    drawCheese(sliceDiv, index, randomRange(40, 50), randomRange(36, 39))
+    drawCheese(sliceDiv, index, randomRange(10, 20), randomRange(38, 42))
 
-    topping = document.createElementNS("http://www.w3.org/2000/svg", "rect")
-    topping.setAttribute("x", -6)
-    topping.setAttribute("y", -6)
-    topping.setAttribute("width", 14)
-    topping.setAttribute("height", 14)
-    topping.setAttribute("fill", "#ffee33")
-    topping.setAttribute("rx", 4)
-    addToppingAt(sliceDiv, index, topping, randomRange(50, 50), randomRange(34, 39))
-
-    topping = document.createElementNS("http://www.w3.org/2000/svg", "rect")
-    topping.setAttribute("x", -6)
-    topping.setAttribute("y", -6)
-    topping.setAttribute("width", 14)
-    topping.setAttribute("height", 14)
-    topping.setAttribute("fill", "#ffee33")
-    topping.setAttribute("rx", 4)
-    addToppingAt(sliceDiv, index, topping, randomRange(20, 40), randomRange(13, 20))
+    drawLeaf(sliceDiv, index, randomRange(0, 30), randomRange(30, 35))
+    drawLeaf(sliceDiv, index, randomRange(30, 60), randomRange(5, 45))
+    drawLeaf(sliceDiv, index, randomRange(0, 60), randomRange(5, 45))
 }
