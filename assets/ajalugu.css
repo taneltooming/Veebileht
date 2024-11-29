@@ -38,30 +38,35 @@ header {
 .left,
 .center,
 .right {
+    align-items: center;
     width: 33.33%;
     padding: 20px;
     box-sizing: border-box;
-
+    text-align: center;
 }
+
+
+
 
 .left p {
     text-align: left;
-    font-size: 2vh;
-    margin-top: 21vh;
-    font-family: "Bokor", serif;
+    font-size: 1em;
+    margin-top: 4vh;
+    font-family: "Fredericka the Great", serif;
 
 }
 
 .right p {
     text-align: right;
-    font-size: 2vh;
-    margin-top: 21vh;
-    font-family: "Bokor", serif;
+    font-size: 1em;
+    margin-top: 4vh;
+    font-family: "Fredericka the Great", serif;
 
 }
 
 .center img {
     max-width: 100%;
+    margin-top: 3.5em;
 
 
 }
@@ -80,7 +85,7 @@ header {
 }
 
 .nav {
-    width: 90%;
+    width: 95%;
     height: 90px;
     display: flex;
     justify-content: space-between;
@@ -113,4 +118,11 @@ header {
 .right-link p,
 .left-link p {
     margin: 0;
+}
+
+.flag {
+
+    width: 25%;
+    height: 25%;
+
 }
