@@ -1,63 +1,148 @@
 
+let pitsaElement
+const pitsaFloatElements = []
+const pitsaLinks = {
+    2: {name: "RETSEPT", href: "retsept.html"},
+    1: {name: "AJALUGU", href: "ajalugu2.html"},
+}
+
+const eatingAudio = [
+    new Audio("assets/sounds/Eat1.ogg"),
+    new Audio("assets/sounds/Eat2.ogg"),
+    new Audio("assets/sounds/Eat3.ogg"),
+    new Audio("assets/sounds/Burp.ogg"),
+]
+
 const sliceCount = 6
-const pizzaBases = []
-const pizzaToppings = []
-
-const anglePerSecond = 6
+const flatness = 0.5
+const anglePerSecond = 10
 let prevTime = 0
+let currentRotation = 0
 
-window.onload = function() {    
+window.onload = function() {
+    pitsaElement = document.getElementById("pitsa-animatsioon")
+
+    audioPreload()
+    createFloatLayers()
     drawPizza()
     requestAnimationFrame(animationFrame)
+}
+
+function audioPreload() {
+    for (audio of eatingAudio) {
+        audio.volume = 0
+        audio.play()
+        audio.pause()
+        audio.volume = 1
+    }
 }
 
 function animationFrame(currentTime) {
     deltaTime = (currentTime - prevTime) / 1000
     prevTime = currentTime
 
-    pitsa = document.getElementById("pitsa-animatsioon")
-    pitsa.style.transform = (`scale(1, 0.65) rotate(${currentTime}deg)`)
+    currentRotation = currentRotation + anglePerSecond * deltaTime
 
-    console.log(deltaTime)
+    for (element of pitsaFloatElements.concat([pitsaElement])) {
+        element.style.transform = (`scale(1, ${flatness}) rotate(${currentRotation}deg)`)
+    }
+
+    const sortedFloatElements = pitsaFloatElements.slice().sort((a, b) => {
+        let aTop = getComputedStyle(a).top
+        let bTop = getComputedStyle(b).top
+        return bTop.substring(0, bTop.length - 2) - aTop.substring(0, aTop.length - 2)
+    })
+
+    for (i in sortedFloatElements) {
+        sortedFloatElements[i].style.zIndex = i + 1
+    }
 
     requestAnimationFrame(animationFrame)
 }
 
-function drawPizza() {
-    pitsaElement = document.getElementById("pitsa-animatsioon")
-
-    for (let i = 0; i < 6; i++) {
-        createBase(pitsaElement, i)
-    }
-    for (let i = 0; i < 6; i++) {
-        createTopNotchToppings(pitsaElement, i)
+function createFloatLayers() {
+    for (let i = 0; i < sliceCount; i++) {
+        const pitsaFloatElement = pitsaElement.cloneNode(true)
+        pitsaFloatElement.id = `pitsa-float-${i}`
+        pitsaElement.after(pitsaFloatElement)
+        pitsaFloatElements.push(pitsaFloatElement)
     }
 }
 
-function createBase(pitsaElement, index) {
+function drawPizza() {
+    for (let i = 0; i < 6; i++) {
+        createBase(i)
+    }
+    for (let i = 0; i < 6; i++) {
+        createTopNotchToppings(i)
+    }
+    for (let i = 0; i < 6; i++) {
+        createCollider(i)
+    }
+}
+
+function createCollider(index) {
+    const colliderGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
+    colliderGroup.id = `collider-${index}`
+
+    drawCollider(colliderGroup, index)
+
+    pitsaElement.appendChild(colliderGroup)
+
+    colliderGroup.addEventListener("mouseover", (e) => {
+        const floatElement = pitsaFloatElements[index]
+        floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
+        floatElement.classList.remove("unfloating")
+        floatElement.classList.add("floating")
+    })
+    
+    colliderGroup.addEventListener("mouseout", (e) => {
+        const floatElement = pitsaFloatElements[index]
+        floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
+        floatElement.classList.remove("floating")
+        floatElement.classList.add("unfloating")
+    })
+    
+    colliderGroup.addEventListener("click", e => {
+        const floatElement = pitsaFloatElements[index]
+        floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
+        floatElement.classList.add("eating")
+
+        colliderGroup.remove()
+
+        setTimeout(() => {
+            const soundIndex = randomInt(3)
+            eatingAudio[soundIndex].play();
+            eatingAudio[soundIndex] = new Audio(eatingAudio[soundIndex].src)
+            
+            if (pitsaLinks[index] !== undefined) {
+                setTimeout(() => eatingAudio[3].play(), 80);
+                setTimeout(() => window.location.href = pitsaLinks[index].href, 400);
+            }
+        }, 400);
+    })
+}
+
+function createBase(index) {
     const baseGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
+    baseGroup.id = `base-${index}`
+
     drawBase(baseGroup, index)
     drawCrust(baseGroup, index)
-    pitsaElement.appendChild(baseGroup)
-    pizzaBases.push(baseGroup)
+    
+    pitsaFloatElements[index].appendChild(baseGroup)
 }
 
-function createTopNotchToppings(pitsaElement, index) {
+function createTopNotchToppings(index) {
     const toppingsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
-    drawTopNotchToppings(toppingsGroup, index)
-    pitsaElement.appendChild(toppingsGroup)
-    pizzaToppings.push(toppingsGroup)
+    toppingsGroup.id = `toppings-${index}`
 
-    toppingsGroup.id = "topping-" + index
-    toppingsGroup.addEventListener("mouseover", (e) => {
-        toppingsGroup.setAttribute("transform", "translate(0, -60)")
-    })
-    toppingsGroup.addEventListener("mouseout", (e) => {
-        toppingsGroup.setAttribute("transform", "translate(0, 0)")
-    })
+    drawTopNotchToppings(toppingsGroup, index)
+
+    pitsaFloatElements[index].appendChild(toppingsGroup)
 }
 
-function drawBase(baseGroup, index) {
+function getSlicePath(index) {
     const angle1 = index / sliceCount * 2 * Math.PI
     const angle2 = (index + 1) / sliceCount * 2 * Math.PI
 
@@ -66,13 +151,28 @@ function drawBase(baseGroup, index) {
 
     let pizzaCrustPath = `M ${pos1[0]} ${pos1[1]} `
     pizzaCrustPath += `A 50 50 0 0 0 ${pos2[0]} ${pos2[1]} `
-    const pizzaSlicePath = pizzaCrustPath + "L 50 50 "
+    return pizzaCrustPath + "L 50 50 "
+}
+
+function drawCollider(colliderGroup, index) {
+    const colliderPath = getSlicePath(index)
+
+    const pizzaColliderElement = document.createElementNS("http://www.w3.org/2000/svg", "path")
+    pizzaColliderElement.setAttribute("d", colliderPath)
+    pizzaColliderElement.setAttribute("fill", "transparent")
+
+    colliderGroup.appendChild(pizzaColliderElement)
+}
+
+function drawBase(baseGroup, index) {
+    const pizzaSlicePath = getSlicePath(index)
 
     const pizzaSliceElement = document.createElementNS("http://www.w3.org/2000/svg", "path")
     pizzaSliceElement.setAttribute("d", pizzaSlicePath)
     pizzaSliceElement.setAttribute("fill", "#ff2200")
     pizzaSliceElement.setAttribute("stroke", "red")
     pizzaSliceElement.setAttribute("stroke-width", "0.4")
+
     baseGroup.appendChild(pizzaSliceElement)
 }
 
@@ -137,8 +237,26 @@ function drawLeaf(sliceDiv, index, angle, distance) {
     addToppingAt(sliceDiv, index, topping, angle, distance, randomRange(0, 360))
 }
 
+function drawText(sliceDiv, index, stroke) {
+    if (pitsaLinks[index] === undefined) return
+
+    const topping = document.createElementNS("http://www.w3.org/2000/svg", "text")
+    topping.innerHTML = pitsaLinks[index].name
+    topping.classList.add("topping-text")
+
+    topping.setAttribute("x", "11%")
+    topping.setAttribute("y", "3%")
+    topping.setAttribute("font-size", "68%")
+    if (stroke) {
+        topping.setAttribute("stroke", "#ffeeaa")
+        topping.setAttribute("stroke-width", 1.5)
+    }
+
+    addToppingAt(sliceDiv, index, topping, -60, 0, 0)
+}
+
 function drawTopNotchToppings(sliceDiv, index) {
-    drawCheese(sliceDiv, index, randomRange(20, 40), randomRange(5, 20))
+    drawCheese(sliceDiv, index, randomRange(20, 40), randomRange(10, 20))
     drawCheese(sliceDiv, index, randomRange(20, 40), randomRange(20, 30))
     drawCheese(sliceDiv, index, randomRange(10, 20), randomRange(30, 35))
     drawCheese(sliceDiv, index, randomRange(40, 50), randomRange(36, 39))
@@ -147,6 +265,9 @@ function drawTopNotchToppings(sliceDiv, index) {
     drawLeaf(sliceDiv, index, randomRange(0, 30), randomRange(30, 35))
     drawLeaf(sliceDiv, index, randomRange(30, 60), randomRange(5, 45))
     drawLeaf(sliceDiv, index, randomRange(0, 60), randomRange(5, 45))
+
+    drawText(sliceDiv, index, true)
+    drawText(sliceDiv, index, false)
 }
 
 function randomRange(a, b) {
