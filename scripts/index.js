@@ -72,37 +72,38 @@ function createPizzaCollider(index) {
 
     pizzaElement.appendChild(colliderGroup)
 
-    colliderGroup.addEventListener("mouseover", (e) => pizzaFloatAnimate())
-    colliderGroup.addEventListener("mouseout", (e) => pizzaUnfloatAnimate())    
-    colliderGroup.addEventListener("click", e => onPizzaSliceClick())
+    colliderGroup.addEventListener("mouseover", (e) => pizzaFloatAnimate(index))
+    colliderGroup.addEventListener("mouseout", (e) => pizzaUnfloatAnimate(index))    
+    colliderGroup.addEventListener("click", e => onPizzaSliceClick(colliderGroup, index))
 }
 
-function pizzaFloatAnimate() {
+function pizzaFloatAnimate(index) {
     const floatElement = pizzaFloatElements[index]
     floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
     floatElement.classList.remove("unfloating")
     floatElement.classList.add("floating")
 }
 
-function pizzaUnfloatAnimate() {
+function pizzaUnfloatAnimate(index) {
     const floatElement = pizzaFloatElements[index]
     floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
     floatElement.classList.remove("floating")
     floatElement.classList.add("unfloating")
 }
 
-function pizzaEatAnimate() {
+function pizzaEatAnimate(index) {
     const floatElement = pizzaFloatElements[index]
     floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
     floatElement.classList.add("eating")
 
-    colliderGroup.remove()
 }
 
-function onPizzaSliceClick() {
-    pizzaEatAnimate()
+function onPizzaSliceClick(colliderGroup, index) {
+    pizzaEatAnimate(index)
 
-    const eatingSound = new Audio(`assets/sounds/Eat${randomInt(3)}.ogg`)
+    colliderGroup.remove()
+
+    const eatingSound = new Audio(`assets/sounds/Eat${randomInt(3)+1}.ogg`)
     eatingSound.play();
         
     if (pizzaLinks[index] !== undefined) {
