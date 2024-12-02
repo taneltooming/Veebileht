@@ -1,13 +1,76 @@
-.pitsa-animatsioon {
-    width: 40%;
-    animation: spin 40s linear infinite;
+:root {
+    background: linear-gradient( rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) ), url('PitsaTaust.png');
 }
 
-@keyframes spin {
+body {
+    --pizza-size: min(85vw, 100vh);
+    --float-offset: calc(0.11 * var(--pizza-size));
+}
+
+.pitsa-container {
+    position: relative;
+    width: var(--pizza-size);
+    margin-left: calc((100% - var(--pizza-size)) / 2)
+}
+
+.pitsa-animatsioon {
+    position: absolute;
+    top: 0vw;
+    margin-top: calc(-0.5 * var(--pizza-size) + 50vh + 0.2 * var(--float-offset));
+    filter: brightness(90%);
+
+    pointer-events: none;
+}
+
+.topping-text {
+    font-family: "Bokor", serif;
+    font-weight: bold;
+}
+
+#pitsa-animatsioon {
+    pointer-events: all;
+}
+
+.floating {
+    animation: float 0.3s forwards
+}
+
+.unfloating {
+    animation: unfloat 0.3s forwards
+}
+
+.eating {
+    animation: eat 1.5s ease forwards
+}
+
+@keyframes eat {
     from {
-        transform: scale(1, 0.65) rotate(0deg) 
+        top: var(--start-top);
     }
     to {
-        transform: scale(1, 0.65) rotate(360deg)
+        /*vh to get out of frame, vw to make animation speed more consistent for different aspect ratios*/
+        top: calc(0vh - 100vh - 100vw)
+    }
+}
+
+@keyframes float {
+    from {
+        top: var(--start-top, 0vw);
+        filter: brightness(90%);
+    }
+    to {
+        top: calc(-1 * var(--float-offset));
+        filter: brightness(120%) drop-shadow(0 0 calc(0.05 * (var(--pizza-size))) #ffff99ff);
+    }
+}
+
+@keyframes unfloat {
+    from {
+        top: var(--start-top, calc(-1 * var(--float-offset)));
+        filter: brightness(120%) drop-shadow(0 0 calc(0.05 * (var(--pizza-size))) #ffff99ff);
+    }
+    to {
+        top: 0vw;
+        filter: brightness(90%);
     }
 }
