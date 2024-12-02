@@ -20,9 +20,9 @@ let vibrationInterval = setInterval(startVibration, 5000);
 
 
 imageItalo.addEventListener('mouseover', () => {
-    clearInterval(vibrationInterval); // Peatab vibreerimise tsükli
+    clearInterval(vibrationInterval);
     const newText = "Margherita pitsa sai oma nime legendi järgi 1889. aastal, kui Itaalia kuninganna Margherita Savoyst külastas Napoli linna. Kohalik pitsameister Raffaele Esposito kutsuti tegema kuningannale midagi erilist. Talle pakuti mitmeid pitsasid, kuid eriti paelus teda üks, millel olid kolme Itaalia lipu värvi koostisosad: punased tomatid, valge mozzarella ja rohelised basiilikulehed. See pitsakate sai nimeks Pizza Margherita kuninganna auks. Kuigi tänapäeval pole täielikult kinnitatud, kas see lugu täpselt nii aset leidis, sai see pitsa ikkagi Itaalia rahvusliku identiteedi sümboliks.";
-    textContainerIta.textContent = newText; // Muudab teksti
+    textContainerIta.textContent = newText;
 
 });
 
@@ -42,7 +42,3 @@ imageUsa.addEventListener('mouseout', () => {
     vibrationInterval = setInterval(startVibration, 5000);
 });
 
-const path = document.getElementById("curvedPath");
-
-// Muudame teekonda dünaamiliselt
-path.setAttribute("d", "M50 150 C150 20, 350 20, 450 150");
