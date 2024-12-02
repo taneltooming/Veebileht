@@ -1,53 +1,36 @@
 
-let pitsaElement
-const pitsaFloatElements = []
-const pitsaLinks = {
+let pizzaElement
+const pizzaFloatElements = []
+const pizzaLinks = {
     2: {name: "RETSEPT", href: "retsept.html"},
     1: {name: "AJALUGU", href: "ajalugu.html"},
 }
 
-const eatingAudio = [
-    new Audio("assets/sounds/Eat1.ogg"),
-    new Audio("assets/sounds/Eat2.ogg"),
-    new Audio("assets/sounds/Eat3.ogg"),
-    new Audio("assets/sounds/Burp.ogg"),
-]
-
 const sliceCount = 6
-const flatness = 0.5
-const anglePerSecond = 10
+const pizzaFlatness = 0.5
+const pizzaRotateSpeed = 10
 let prevTime = 0
 let currentRotation = 0
 
 window.onload = function() {
-    pitsaElement = document.getElementById("pitsa-animatsioon")
+    pizzaElement = document.getElementById("pizza-animatsioon")
 
-    audioPreload()
     createFloatLayers()
     drawPizza()
     requestAnimationFrame(animationFrame)
-}
-
-function audioPreload() {
-    for (audio of eatingAudio) {
-        audio.volume = 0
-        audio.play()
-        audio.pause()
-        audio.volume = 1
-    }
 }
 
 function animationFrame(currentTime) {
     deltaTime = (currentTime - prevTime) / 1000
     prevTime = currentTime
 
-    currentRotation = currentRotation + anglePerSecond * deltaTime
+    currentRotation = currentRotation + pizzaRotateSpeed * deltaTime
 
-    for (element of pitsaFloatElements.concat([pitsaElement])) {
-        element.style.transform = (`scale(1, ${flatness}) rotate(${currentRotation}deg)`)
+    for (element of pizzaFloatElements.concat([pizzaElement])) {
+        element.style.transform = (`scale(1, ${pizzaFlatness}) rotate(${currentRotation}deg)`)
     }
 
-    const sortedFloatElements = pitsaFloatElements.slice().sort((a, b) => {
+    const sortedFloatElements = pizzaFloatElements.slice().sort((a, b) => {
         let aTop = getComputedStyle(a).top
         let bTop = getComputedStyle(b).top
         return bTop.substring(0, bTop.length - 2) - aTop.substring(0, aTop.length - 2)
@@ -62,10 +45,10 @@ function animationFrame(currentTime) {
 
 function createFloatLayers() {
     for (let i = 0; i < sliceCount; i++) {
-        const pitsaFloatElement = pitsaElement.cloneNode(true)
-        pitsaFloatElement.id = `pitsa-float-${i}`
-        pitsaElement.after(pitsaFloatElement)
-        pitsaFloatElements.push(pitsaFloatElement)
+        const pizzaFloatElement = pizzaElement.cloneNode(true)
+        pizzaFloatElement.id = `pizza-float-${i}`
+        pizzaElement.after(pizzaFloatElement)
+        pizzaFloatElements.push(pizzaFloatElement)
     }
 }
 
@@ -87,37 +70,36 @@ function createCollider(index) {
 
     drawCollider(colliderGroup, index)
 
-    pitsaElement.appendChild(colliderGroup)
+    pizzaElement.appendChild(colliderGroup)
 
     colliderGroup.addEventListener("mouseover", (e) => {
-        const floatElement = pitsaFloatElements[index]
+        const floatElement = pizzaFloatElements[index]
         floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
         floatElement.classList.remove("unfloating")
         floatElement.classList.add("floating")
     })
     
     colliderGroup.addEventListener("mouseout", (e) => {
-        const floatElement = pitsaFloatElements[index]
+        const floatElement = pizzaFloatElements[index]
         floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
         floatElement.classList.remove("floating")
         floatElement.classList.add("unfloating")
     })
     
     colliderGroup.addEventListener("click", e => {
-        const floatElement = pitsaFloatElements[index]
+        const floatElement = pizzaFloatElements[index]
         floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
         floatElement.classList.add("eating")
 
         colliderGroup.remove()
 
         setTimeout(() => {
-            const soundIndex = randomInt(3)
-            eatingAudio[soundIndex].play();
-            eatingAudio[soundIndex] = new Audio(eatingAudio[soundIndex].src)
+            new Audio(`assets/sounds/Eat${randomInt(3)}.ogg`).play();
             
-            if (pitsaLinks[index] !== undefined) {
-                setTimeout(() => eatingAudio[3].play(), 80);
-                setTimeout(() => window.location.href = pitsaLinks[index].href, 800);
+            if (pizzaLinks[index] !== undefined) {
+                setTimeout(() => new Audio(`assets/sounds/Burp.ogg`).play(), 80);
+                
+                setTimeout(() => window.location.href = pizzaLinks[index].href, 800);
             }
         }, 0);
     })
@@ -130,7 +112,7 @@ function createBase(index) {
     drawBase(baseGroup, index)
     drawCrust(baseGroup, index)
     
-    pitsaFloatElements[index].appendChild(baseGroup)
+    pizzaFloatElements[index].appendChild(baseGroup)
 }
 
 function createTopNotchToppings(index) {
@@ -139,7 +121,7 @@ function createTopNotchToppings(index) {
 
     drawTopNotchToppings(toppingsGroup, index)
 
-    pitsaFloatElements[index].appendChild(toppingsGroup)
+    pizzaFloatElements[index].appendChild(toppingsGroup)
 }
 
 function getSlicePath(index) {
@@ -236,10 +218,10 @@ function drawLeaf(sliceDiv, index, angle, distance) {
 }
 
 function drawText(sliceDiv, index, stroke) {
-    if (pitsaLinks[index] === undefined) return
+    if (pizzaLinks[index] === undefined) return
 
     const topping = document.createElementNS("http://www.w3.org/2000/svg", "text")
-    topping.innerHTML = pitsaLinks[index].name
+    topping.innerHTML = pizzaLinks[index].name
     topping.classList.add("topping-text")
 
     topping.setAttribute("x", "11%")
