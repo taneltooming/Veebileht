@@ -1,86 +1,84 @@
 body {
-
     font-family: Arial, sans-serif;
     background-image: url(PitsaTaust.png);
-    margin: 0;
-    padding: 0;
+
     display: flex;
     flex-direction: column;
-
+    font-size: 0.8vw;
     align-items: center;
-
+    margin: 0;
 }
 
 header {
     width: 100%;
-    height: 12dvh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 3dvh;
     color: #333;
     font-family: "Fredericka the Great", serif;
-    font-weight: 400;
+    font-weight: 575;
     font-style: normal;
 }
 
-.container {
-    position: relative;
-    display: flex;
-    width: 100%;
-    max-width: 100%;
-
-    flex-wrap: wrap;
-
+header img {
+    width: 45vw;
+    height: 15vw;
 }
 
 
-.left,
-.center,
-.right {
-    align-items: center;
-    width: 33.33%;
-    padding: 20px;
-    box-sizing: border-box;
+.flag {
+    height: auto;
+    width: 95%;
+    display: flex;
+    margin-bottom: 3dvh;
+}
+
+.flag img {
+    width: 25%;
+}
+
+.lipud {
+    flex: 2;
+    text-align: center;
+}
+
+#usalipp {
+    margin-top: 1.3dvh;
+}
+
+.main {
+    width: 100%;
+    display: flex;
+    height: 10vw;
+    background-color: #edd4b6;
+
+    font-family: "Fredericka the Great", serif;
     text-align: center;
 }
 
 
+.main img {
+    width: 22vw;
+}
 
+.story {
+    flex: 2;
+}
 
-.left p {
+#centerimg {
+    justify-self: center;
+    align-self: center;
+}
+
+#itajutt {
+    margin-left: 1.5dvh;
     text-align: left;
-    font-size: 1.7dvh;
-    margin-top: 6dvh;
-    font-family: "Fredericka the Great", serif;
-
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
-.right p {
-    text-align: right;
-    font-size: 1.7dvh;
-    margin-top: 6dvh;
-    font-family: "Fredericka the Great", serif;
-
-}
-
-.center img {
-    max-width: 100%;
-    margin-top: 4dvh;
-
-
-}
-
-
-.horizontal-bar {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 25dvh;
-    background-color: #edd4b6;
-    z-index: -1;
-    transform: translateY(-50%);
+#usajutt {
+    margin-right: 1.5dvh;
+    text-align: left;
 
 }
 
@@ -90,15 +88,15 @@ header {
     display: flex;
     justify-content: space-between;
     font-family: "Teko", sans-serif;
-    font-size: 3dvh;
+    font-size: 1.5vw;
     box-sizing: border-box;
-
+    margin-top: 7vw;
 }
 
 .left-link img {
     margin-bottom: 0;
     display: block;
-    width: 8dvh;
+    width: 3vw;
     transform: rotate(90deg);
 
 }
@@ -106,9 +104,8 @@ header {
 .right-link img {
     margin-bottom: 0;
     display: block;
-    width: 8dvh;
+    width: 3vw;
     transform: rotate(-90deg);
-
 }
 
 .right-link {
@@ -120,9 +117,28 @@ header {
     margin: 0;
 }
 
-.flag {
+@keyframes vibrate {
+    0% {
+        transform: translateX(0);
+    }
 
-    width: 25%;
-    height: 25%;
+    25% {
+        transform: translateX(-5px);
+    }
 
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.vibrate {
+    animation: vibrate 1s ease-in-out;
 }
