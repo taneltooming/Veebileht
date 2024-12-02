@@ -1,69 +1,23 @@
 <!DOCTYPE html>
-<html lang="et">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marherita pitsa ajalugu</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bokor&family=Fredericka+the+Great&family=Teko:wght@300..700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="assets/ajalugu.css">
+    <title>Document</title>
 </head>
 
 <body>
-
-    <header>
-        <h1>-Margherita pizza ajaloost-</h1>
-    </header>
-
-    <div class="container">
-        <div class="horizontal-bar"></div>
-        <div class="left">
-            <img src="assets/italyflag.png" class="flag" id="italyflag">
-            <p>Margherita pitsa sai oma nime legendi järgi 1889. aastal, kui Itaalia kuninganna
-                Margherita Savoyst külastas Napoli linna.
-                Kohalik pitsameister Raffaele Esposito kutsuti tegema kuningannale midagi erilist. Talle pakuti mitmeid
-                pitsasid, kuid eriti paelus teda üks,
-                millel olid kolme Itaalia lipu värvi koostisosad: punased tomatid, valge mozzarella ja rohelised
-                basiilikulehed. See pitsakate sai nimeks
-                Pizza Margherita kuninganna auks. Kuigi tänapäeval pole täielikult kinnitatud, kas see lugu täpselt nii
-                aset leidis, sai see pitsa ikkagi
-                Itaalia rahvusliku identiteedi sümboliks.
-            </p>
-        </div>
-        <div class="center">
-            <img src="assets/valmispizza.png" alt="Pizza taldrikul" id="taldrik">
-        </div>
-        <div class="right">
-            <img src="assets/usflag2.png" class="flag" id="usflag">
-            <p>Kui Euroopas on see pizza tuntud Margherita pizza nime all, siis Põhja-Ameerikas on
-                ta ka tuntud kui "plain pizza". Nagu nimigi ütleb on tegemist
-                niiöelda tühja või lihtsa pitsaga, mis viitab, et pitsa peal on ainult tomatikaste ja juust.
-            </p>
-        </div>
-    </div>
-
-    <div class="nav">
-        <div class="left-link">
-            <a href="index.html" class="link">
-                <img src="assets/button1.png" alt="Vasak nupp">
-            </a>
-            <p>Pealehele</p>
-
-        </div>
-
-        <div class="right-link">
-            <a href="retsept.html" class="link">
-                <img src="assets/button1.png" alt="Parem nupp">
-            </a>
-            <p>Retseptilehele</p>
-
-
-
-        </div>
+    <svg viewBox="0 0 500 500" style="width: auto; height: auto;">
+        <!-- Ring (kaar) mille järgi tekst liigub -->
+        <path id="curvedPath" d="M 500, 500
+                 m -250, 0
+                 a 250,250 0 1,1 500,0
+                 a 250,250 0 1,1 -500,0" fill="transparent" stroke="transparent" />
+        <text>
+            <textPath href="#curvedPath">-Margherita pizza ajaloost-</textPath>
+        </text>
+    </svg>
 </body>
 
 </html>
