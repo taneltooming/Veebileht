@@ -84,15 +84,15 @@ header {
     display: flex;
     justify-content: space-between;
     font-family: "Teko", sans-serif;
-    font-size: 3vh;
+    font-size: 1.5vw;
     box-sizing: border-box;
-
+    margin-top: 7vw;
 }
 
 .left-link img {
     margin-bottom: 0;
     display: block;
-    width: 30%;
+    width: 3vw;
     transform: rotate(90deg);
 
 }
@@ -100,9 +100,8 @@ header {
 .right-link img {
     margin-bottom: 0;
     display: block;
-    width: 30%;
+    width: 3vw;
     transform: rotate(-90deg);
-
 }
 
 .right-link {
