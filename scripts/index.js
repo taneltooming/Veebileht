@@ -225,15 +225,13 @@ function drawCheese(sliceDiv, index, angle, distance) {
 
 function drawLeaf(sliceDiv, index, angle, distance) {
     const topping = document.createElementNS("http://www.w3.org/2000/svg", "image")
-    size = randomRange(14, 9)
+    size = randomRange(14, 7)
     topping.setAttribute("x", -size/2)
     topping.setAttribute("y", -size/2)
     topping.setAttribute("height", size)
     topping.setAttribute("width", size)
-    topping.setAttribute("href", `assets/leaf.svg`)
+    topping.setAttribute("href", `assets/leaf${randomInt(2)}.svg`)
 
-    //const distance = Math.sqrt(Math.random(48)) * 48
-    //const angle = 360 / sliceCount * Math.random()
     addToppingAt(sliceDiv, index, topping, angle, distance, randomRange(0, 360))
 }
 
@@ -257,14 +255,17 @@ function drawText(sliceDiv, index, stroke) {
 
 function drawTopNotchToppings(sliceDiv, index) {
     drawCheese(sliceDiv, index, randomRange(20, 40), randomRange(10, 20))
-    drawCheese(sliceDiv, index, randomRange(20, 40), randomRange(20, 30))
-    drawCheese(sliceDiv, index, randomRange(10, 20), randomRange(30, 35))
-    drawCheese(sliceDiv, index, randomRange(40, 50), randomRange(36, 39))
-    drawCheese(sliceDiv, index, randomRange(10, 20), randomRange(38, 42))
+    drawCheese(sliceDiv, index, randomRange(10, 25), randomRange(22, 30))
+    drawCheese(sliceDiv, index, randomRange(35, 50), randomRange(30, 36))
+    drawCheese(sliceDiv, index, randomRange(9, 15), randomRange(34, 40))
+    drawCheese(sliceDiv, index, randomRange(15, 45), randomRange(36, 41))
+    drawCheese(sliceDiv, index, randomRange(45, 51), randomRange(38, 42))
 
-    drawLeaf(sliceDiv, index, randomRange(0, 30), randomRange(30, 35))
-    drawLeaf(sliceDiv, index, randomRange(30, 60), randomRange(5, 45))
-    drawLeaf(sliceDiv, index, randomRange(0, 60), randomRange(5, 45))
+    drawLeaf(sliceDiv, index, randomRange(3, 57), randomRange(5, 25))
+    drawLeaf(sliceDiv, index, randomRange(3, 30), randomRange(25, 38))
+    drawLeaf(sliceDiv, index, randomRange(30, 57), randomRange(25, 38))
+    drawLeaf(sliceDiv, index, randomRange(3, 30), randomRange(38, 45))
+    drawLeaf(sliceDiv, index, randomRange(30, 57), randomRange(38, 45))
 
     drawText(sliceDiv, index, true)
     drawText(sliceDiv, index, false)
