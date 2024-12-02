@@ -3,13 +3,13 @@ body {
     --float-offset: calc(0.11 * var(--pizza-size));
 }
 
-.pitsa-container {
+.pizza-container {
     position: relative;
     width: var(--pizza-size);
     margin-left: calc((100% - var(--pizza-size)) / 2)
 }
 
-.pitsa-animatsioon {
+.pizza-animatsioon {
     position: absolute;
     top: 0vw;
     margin-top: calc(-0.5 * var(--pizza-size) + 50vh + 0.2 * var(--float-offset));
@@ -23,7 +23,7 @@ body {
     font-weight: bold;
 }
 
-#pitsa-animatsioon {
+#pizza-animatsioon {
     pointer-events: all;
 }
 

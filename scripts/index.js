@@ -7,9 +7,9 @@ const pizzaLinks = {
 }
 
 const sliceCount = 6
-const pizzaFlatness = 0.5
-const pizzaRotateSpeed = 10
-let prevTime = 0
+const flatness = 0.5
+const rotateSpeed = 10
+let prevAnimationTime = 0
 let currentRotation = 0
 
 window.onload = function() {
@@ -20,14 +20,14 @@ window.onload = function() {
     requestAnimationFrame(animationFrame)
 }
 
-function animationFrame(currentTime) {
-    deltaTime = (currentTime - prevTime) / 1000
-    prevTime = currentTime
+function animationFrame(currentAnimationTime) {
+    deltaTime = (currentAnimationTime - prevAnimationTime) / 1000
+    prevAnimationTime = currentAnimationTime
 
-    currentRotation = currentRotation + pizzaRotateSpeed * deltaTime
+    currentRotation = currentRotation + rotateSpeed * deltaTime
 
     for (element of pizzaFloatElements.concat([pizzaElement])) {
-        element.style.transform = (`scale(1, ${pizzaFlatness}) rotate(${currentRotation}deg)`)
+        element.style.transform = (`scale(1, ${flatness}) rotate(${currentRotation}deg)`)
     }
 
     const sortedFloatElements = pizzaFloatElements.slice().sort((a, b) => {
@@ -54,58 +54,68 @@ function createFloatLayers() {
 
 function drawPizza() {
     for (let i = 0; i < 6; i++) {
-        createBase(i)
+        createPizzaBase(i)
     }
     for (let i = 0; i < 6; i++) {
-        createTopNotchToppings(i)
+        createPizzaToppings(i)
     }
     for (let i = 0; i < 6; i++) {
-        createCollider(i)
+        createPizzaCollider(i)
     }
 }
 
-function createCollider(index) {
+function createPizzaCollider(index) {
     const colliderGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
     colliderGroup.id = `collider-${index}`
 
-    drawCollider(colliderGroup, index)
+    drawEventCollider(colliderGroup, index)
 
     pizzaElement.appendChild(colliderGroup)
 
-    colliderGroup.addEventListener("mouseover", (e) => {
-        const floatElement = pizzaFloatElements[index]
-        floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
-        floatElement.classList.remove("unfloating")
-        floatElement.classList.add("floating")
-    })
-    
-    colliderGroup.addEventListener("mouseout", (e) => {
-        const floatElement = pizzaFloatElements[index]
-        floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
-        floatElement.classList.remove("floating")
-        floatElement.classList.add("unfloating")
-    })
-    
-    colliderGroup.addEventListener("click", e => {
-        const floatElement = pizzaFloatElements[index]
-        floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
-        floatElement.classList.add("eating")
-
-        colliderGroup.remove()
-
-        setTimeout(() => {
-            new Audio(`assets/sounds/Eat${randomInt(3)}.ogg`).play();
-            
-            if (pizzaLinks[index] !== undefined) {
-                setTimeout(() => new Audio(`assets/sounds/Burp.ogg`).play(), 80);
-                
-                setTimeout(() => window.location.href = pizzaLinks[index].href, 800);
-            }
-        }, 0);
-    })
+    colliderGroup.addEventListener("mouseover", (e) => pizzaFloatAnimate())
+    colliderGroup.addEventListener("mouseout", (e) => pizzaUnfloatAnimate())    
+    colliderGroup.addEventListener("click", e => onPizzaSliceClick())
 }
 
-function createBase(index) {
+function pizzaFloatAnimate() {
+    const floatElement = pizzaFloatElements[index]
+    floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
+    floatElement.classList.remove("unfloating")
+    floatElement.classList.add("floating")
+}
+
+function pizzaUnfloatAnimate() {
+    const floatElement = pizzaFloatElements[index]
+    floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
+    floatElement.classList.remove("floating")
+    floatElement.classList.add("unfloating")
+}
+
+function pizzaEatAnimate() {
+    const floatElement = pizzaFloatElements[index]
+    floatElement.style.setProperty("--start-top", getComputedStyle(floatElement).top)
+    floatElement.classList.add("eating")
+
+    colliderGroup.remove()
+}
+
+function onPizzaSliceClick() {
+    pizzaEatAnimate()
+
+    const eatingSound = new Audio(`assets/sounds/Eat${randomInt(3)}.ogg`)
+    eatingSound.play();
+        
+    if (pizzaLinks[index] !== undefined) {
+        setTimeout(() => {
+            const burpSound = new Audio(`assets/sounds/Burp.ogg`)
+            burpSound.play()
+        }, 80);
+        
+        setTimeout(() => window.location.href = pizzaLinks[index].href, 800);
+    }
+}
+
+function createPizzaBase(index) {
     const baseGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
     baseGroup.id = `base-${index}`
 
@@ -115,16 +125,16 @@ function createBase(index) {
     pizzaFloatElements[index].appendChild(baseGroup)
 }
 
-function createTopNotchToppings(index) {
+function createPizzaToppings(index) {
     const toppingsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g")
     toppingsGroup.id = `toppings-${index}`
 
-    drawTopNotchToppings(toppingsGroup, index)
+    drawPizzaToppings(toppingsGroup, index)
 
     pizzaFloatElements[index].appendChild(toppingsGroup)
 }
 
-function getSlicePath(index) {
+function getSliceSvgPath(index) {
     const angle1 = index / sliceCount * 2 * Math.PI
     const angle2 = (index + 1) / sliceCount * 2 * Math.PI
 
@@ -136,8 +146,8 @@ function getSlicePath(index) {
     return pizzaCrustPath + "L 50 50 "
 }
 
-function drawCollider(colliderGroup, index) {
-    const colliderPath = getSlicePath(index)
+function drawEventCollider(colliderGroup, index) {
+    const colliderPath = getSliceSvgPath(index)
 
     const pizzaColliderElement = document.createElementNS("http://www.w3.org/2000/svg", "path")
     pizzaColliderElement.setAttribute("d", colliderPath)
@@ -147,7 +157,7 @@ function drawCollider(colliderGroup, index) {
 }
 
 function drawBase(baseGroup, index) {
-    const pizzaSlicePath = getSlicePath(index)
+    const pizzaSlicePath = getSliceSvgPath(index)
 
     const pizzaSliceElement = document.createElementNS("http://www.w3.org/2000/svg", "path")
     pizzaSliceElement.setAttribute("d", pizzaSlicePath)
@@ -235,7 +245,7 @@ function drawText(sliceDiv, index, stroke) {
     addToppingAt(sliceDiv, index, topping, -60, 0, 0)
 }
 
-function drawTopNotchToppings(sliceDiv, index) {
+function drawPizzaToppings(sliceDiv, index) {
     drawCheese(sliceDiv, index, randomRange(20, 40), randomRange(10, 20))
     drawCheese(sliceDiv, index, randomRange(10, 25), randomRange(22, 30))
     drawCheese(sliceDiv, index, randomRange(35, 50), randomRange(30, 36))
