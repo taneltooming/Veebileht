@@ -1,7 +1,3 @@
-:root {
-    background: linear-gradient( rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) ), url('PitsaTaust.png');
-}
-
 body {
     --pizza-size: min(85vw, 100vh);
     --float-offset: calc(0.11 * var(--pizza-size));
