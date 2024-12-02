@@ -45,7 +45,7 @@ mouseAction(
 );
 mouseAction(imageItalo, 'mouseout', '', textContainerIta);
 
-// Kutsub esile hiire funktsiooni (Itaalia lipp)
+// Kutsub esile hiire funktsiooni (Usa lipp)
 mouseAction(
     imageUsa,
     'mouseover',
