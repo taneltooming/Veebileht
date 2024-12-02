@@ -4,7 +4,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 3vh;
+    font-size: 3rem;
     color: #333;
     font-family: "Fredericka the Great", serif;
     font-weight: 400;
@@ -17,7 +17,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 3vh;
+    font-size: 2rem;
     color: #333;
     font-family: "Fredericka the Great", serif;
     font-weight: 400;
@@ -26,31 +26,60 @@ header {
 
 .text {
     text-align: center;
-    font-size: 2vh;
-    margin-top: 1vh;
+    font-size: 1rem;
+    margin-top: 0.1rem;
     font-family: "Bokor", serif;
 
 }
 
+.containerv {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    width: 100%;
+}
+
 .boxv {
-    width: 55%;
     background-color: #edd4b6;
     padding: 15px 0;
     text-align: center;
     position: relative;
+}
+
+.boxv2 {
+    padding: 15px 0;
+}
+
+.diagonal {
+    transform: rotate(315deg);
+    display: block;
+    margin: 20px auto;
+  }
+
+  .containerr {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    width: 100%;
+}
+
+.boxr2 {
+    padding: 15px 0;
 }
 
 .boxr {
-    width: 55%;
     background-color: #edd4b6;
     padding: 15px 0;
     text-align: center;
     position: relative;
-    right: -45%
+}
+
+.diagonal2 {
+    transform: rotate(10deg);
+    display: block;
+    margin: 20px auto;
 }
 
 .nav {
-    width: 90%;
+    width: 100%;
     height: 90px;
     display: flex;
     justify-content: space-between;
