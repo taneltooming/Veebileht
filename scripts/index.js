@@ -117,9 +117,9 @@ function createCollider(index) {
             
             if (pitsaLinks[index] !== undefined) {
                 setTimeout(() => eatingAudio[3].play(), 80);
-                setTimeout(() => window.location.href = pitsaLinks[index].href, 400);
+                setTimeout(() => window.location.href = pitsaLinks[index].href, 800);
             }
-        }, 400);
+        }, 0);
     })
 }
 
