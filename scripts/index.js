@@ -3,7 +3,7 @@ let pitsaElement
 const pitsaFloatElements = []
 const pitsaLinks = {
     2: {name: "RETSEPT", href: "retsept.html"},
-    1: {name: "AJALUGU", href: "ajalugu2.html"},
+    1: {name: "AJALUGU", href: "ajalugu.html"},
 }
 
 const eatingAudio = [
