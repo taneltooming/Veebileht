@@ -27,22 +27,27 @@ header img {
 
 .flag {
     height: auto;
-    width: 95%;
+    width: 100%;
     display: flex;
-    margin-bottom: 3dvh;
+    margin-bottom: 1.5vw;
 }
 
 .flag img {
-    width: 25%;
+    width: 15%;
+}
+
+#italypng {
+    width: 16.5%;
+}
+
+#usapng {
+    margin-top: 0.4vw;
 }
 
 .lipud {
+    margin-top: 1vw;
     flex: 2;
     text-align: center;
-}
-
-#usalipp {
-    margin-top: 1.3dvh;
 }
 
 .main {
@@ -52,12 +57,12 @@ header img {
     background-color: #edd4b6;
 
     font-family: "Fredericka the Great", serif;
-    text-align: center;
+
 }
 
 
 .main img {
-    width: 22vw;
+    width: 35vw;
 }
 
 .story {
@@ -72,13 +77,11 @@ header img {
 #itajutt {
     margin-left: 1.5dvh;
     text-align: left;
-    justify-content: flex-start;
-    align-items: flex-start;
+
 }
 
 #italytekst {
-    align-self: center;
-    margin-left: 7vw;
+    text-indent: 5.5vw;
 }
 
 #usajutt {
@@ -87,7 +90,8 @@ header img {
 }
 
 #usatekst {
-    margin-left: 5vw;
+    margin-left: 2vw;
+    text-indent: 5.5vw;
 }
 
 .nav {
@@ -98,11 +102,10 @@ header img {
     font-family: "Teko", sans-serif;
     font-size: 1.5vw;
     box-sizing: border-box;
-    margin-top: 7vw;
+    margin-top: 12.5vw;
 }
 
 .left-link img {
-    margin-bottom: 0;
     display: block;
     width: 3vw;
     transform: rotate(90deg);
@@ -110,7 +113,6 @@ header img {
 }
 
 .right-link img {
-    margin-bottom: 0;
     display: block;
     width: 3vw;
     transform: rotate(-90deg);
@@ -125,8 +127,9 @@ header img {
     margin: 0;
 }
 
-/*  See osa koodist valmis koostöös ChatGPT'ga. 
-    Defineerime animatsiooni nimega "vibrate", 
+/*  See osa koodist valmis koostöös ChatGPT'ga. */
+
+/*Defineerime animatsiooni nimega "vibrate", 
     mis liigutab elementi horisontaalselt vasakule ja paremale */
 @keyframes vibrate {
     0% {
