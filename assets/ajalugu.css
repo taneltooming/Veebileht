@@ -76,10 +76,18 @@ header img {
     align-items: flex-start;
 }
 
+#italytekst {
+    align-self: center;
+    margin-left: 7vw;
+}
+
 #usajutt {
     margin-right: 1.5dvh;
     text-align: left;
+}
 
+#usatekst {
+    margin-left: 5vw;
 }
 
 .nav {
@@ -117,28 +125,39 @@ header img {
     margin: 0;
 }
 
+/*  See osa koodist valmis koostöös ChatGPT'ga. 
+    Defineerime animatsiooni nimega "vibrate", 
+    mis liigutab elementi horisontaalselt vasakule ja paremale */
 @keyframes vibrate {
     0% {
         transform: translateX(0);
+        /* Alguspunkt */
     }
 
     25% {
         transform: translateX(-5px);
+        /* Liiguta vasakule */
     }
 
     50% {
         transform: translateX(5px);
+        /* Liiguta paremale */
     }
 
     75% {
         transform: translateX(-5px);
+        /* Tagasi vasakule */
     }
 
     100% {
         transform: translateX(0);
+        /* Naase algasendisse */
     }
 }
 
+/* Klass ".vibrate" lisab elemendile vibreerimisefekti,
+   mis kestab 1 sekundi ja kasutab "vibrate" animatsiooni */
 .vibrate {
     animation: vibrate 1s ease-in-out;
+    /* Rakenda animatsioon */
 }
