@@ -1,3 +1,6 @@
+/*
+Selle JavaScripti faili kirjutas Kaur Huko Käämbre :D
+*/
 
 let pizzaElement
 const pizzaFloatElements = []
